@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Juragan Buah - Debug FIXED</title>
+
+<!-- Firebase SDK (WAJIB PAKAI DEFER!) -->
+<script defer src="https://www.gstatic.com/firebasejs/9.24.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/9.24.0/firebase-firestore-compat.js"></script>
+
+<style>
+body { margin:0; padding:20px; font-family:sans-serif; background:#fff; }
+.debug-box {
+  background:#ffe9e9;
+  border:1px solid #ff6f6f;
+  padding:10px;
+  margin-bottom:15px;
+  border-radius:8px;
+  color:#900;
+}
+#juraganbuah-store { 
+  display:grid; 
+  grid-template-columns:repeat(2,1fr); 
+  gap:15px; 
+}
+.item { border:1px solid #eee; padding:10px; border-radius:10px; }
+.item img { width:100%; border-radius:10px; }
+.buy { display:block; margin-top:10px; padding:10px; background:#16a34a; color:#fff;
+       text-align:center; border-radius:8px; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<h2>🛠️ Debug Mode FIXED — Juragan Buah Store</h2>
+
+<div id="debug-area" class="debug-box">
+⏳ Debug aktif… menunggu script berjalan…
+</div>
+
+<div id="juraganbuah-store">Memuat produk...</div>
+
+<script>
+function debug(msg) {
+  console.log("[DEBUG]", msg);
+  document.getElementById("debug-area").innerHTML += "<br>🔸 " + msg;
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  debug("Menunggu Firebase SDK load...");
+
+  // Tunggu Firebase benar-benar terdefinisi
+  let wait = 0;
+  while (typeof firebase === "undefined") {
+    await new Promise(r => setTimeout(r, 100));
+    wait++;
+    if (wait > 100) {
+      debug("❌ Firebase TIDAK TERDETEKSI! CDN gagal dimuat.");
+      return;
+    }
+  }
+
+  debug("✓ Firebase terdeteksi, melanjutkan init...");
+
+  // Config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDYAJ5IYELYkRYsC2krPNe4M93x2GHHTIM",
+    authDomain: "juraganbuah-59893.firebaseapp.com",
+    projectId: "juraganbuah-59893",
+    storageBucket: "juraganbuah-59893.appspot.com",
+    messagingSenderId: "1076891697892",
+    appId: "1:1076891692:web:41ec91709a4b992be222f1"
+  };
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    debug("✓ Firebase inisialisasi berhasil");
+  } catch(e) {
+    debug("❌ Firebase init error: " + e.message);
+    return;
+  }
+
+  const db = firebase.firestore();
+
+  // LOAD store.js SETELAH Firebase siap
+  debug("Memuat store.js...");
+  var s = document.createElement("script");
+  s.src = "https://juraganbuah-admins.netlify.app/store.js";
+  s.onload = () => debug("✓ store.js dimuat");
+  s.onerror = () => debug("❌ store.js gagal dimuat");
+  document.body.appendChild(s);
+
+  // Ambil produk manual (debug)
+  debug("Mengambil produk dari Firestore...");
+
+  db.collection("products")
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        debug("⚠ Tidak ada produk ditemukan.");
+        document.getElementById("juraganbuah-store").innerHTML =
+        "<p>Tidak ada produk.</p>";
+        return;
+      }
+
+      debug("✓ Produk berhasil diambil: " + snapshot.size);
+
+      let html = "";
+      snapshot.forEach(doc => {
+        const p = doc.data();
+        html += `
+          <div class="item">
+            <img src="${p.imageUrl || ''}">
+            <h4>${p.name || ''}</h4>
+            <p>${p.price || ''}</p>
+          </div>
+        `;
+      });
+
+      document.getElementById("juraganbuah-store").innerHTML = html;
+    })
+    .catch(err => {
+      debug("❌ Firestore error: " + err.message);
+    });
+});
+</script>
+
+</body>
+</html>
