@@ -1,0 +1,56 @@
+[
+  {
+    "id": "p1",
+    "name": "Apel Malang 1kg",
+    "price": "30.000",
+    "priceNumber": 30000,
+    "stockQty": 20,
+    "category": "Buah Segar",
+    "img": "https://i.ibb.co/7vQYq2M/apple.jpg"
+  },
+  {
+    "id": "p2",
+    "name": "Jeruk Medan 1kg",
+    "price": "25.000",
+    "priceNumber": 25000,
+    "stockQty": 15,
+    "category": "Buah Segar",
+    "img": "https://i.ibb.co/2s9s8Qv/orange.jpg"
+  },
+  {
+    "id": "p3",
+    "name": "Pisang Raja 1kg",
+    "price": "18.000",
+    "priceNumber": 18000,
+    "stockQty": 30,
+    "category": "Buah Segar",
+    "img": "https://i.ibb.co/3fY2v8p/banana.jpg"
+  },
+  {
+    "id": "p4",
+    "name": "Mangga Harum 1kg",
+    "price": "40.000",
+    "priceNumber": 40000,
+    "stockQty": 10,
+    "category": "Buah Eksotis",
+    "img": "https://i.ibb.co/kM9v0Xq/mango.jpg"
+  },
+  {
+    "id": "p5",
+    "name": "Paket Hemat 5kg",
+    "price": "120.000",
+    "priceNumber": 120000,
+    "stockQty": 5,
+    "category": "Paket Hemat",
+    "img": "https://i.ibb.co/9nXrG6x/box.jpg"
+  },
+  {
+    "id": "p6",
+    "name": "Srikaya 1kg",
+    "price": "35.000",
+    "priceNumber": 35000,
+    "stockQty": 12,
+    "category": "Buah Eksotis",
+    "img": "https://i.ibb.co/8m2zVwz/srikaya.jpg"
+  }
+]
